@@ -1,0 +1,35 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "FastAPI Backend for Appointment AI Platform"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+dependencies = [
+    "fastapi~=0.111.0", # FastAPI framework
+    "uvicorn[standard]~=0.30.0", # ASGI sunucusu
+    "sqlalchemy~=2.0.30", # ORM
+    "asyncpg~=0.29.0", # PostgreSQL için Async driver
+    "alembic~=1.13.1", # Veritabanı migrasyonları
+    "python-dotenv~=1.0.1", # Ortam değişkenleri için
+    "passlib[bcrypt]~=1.7.4", # Şifre hashleme için
+    "python-jose[jwt]~=3.3.0", # JWT (JSON Web Token) için
+    "psycopg2-binary~=2.9.9", # SQLAlchemy'nin ihtiyaç duyabileceği Psycopg2 için
+    "mypy~=1.10.0", # Statik tip denetimi
+    "ruff~=0.4.8", # Linting ve biçimlendirme
+    "pydantic-settings~=2.3.4", # Pydantic BaseSettings için
+]
+requires-python = ">=3.9" # Bu satır, Python uyumluluğunu belirtir
+readme = "README.md"
+license = { text = "MIT" }
+
+[tool.uv.scripts] # Bu kısım doğru olmalı
+start = "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310" # Python versiyonunuza göre ayarlayın (Sizin durumunuzda 3.10)
+
+[tool.mypy]
+ignore_missing_imports = true
+warn_unused_configs = true
