@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import Base, engine
 
-from api.endpoints.v1 import auth
+from app.api.endpoints.v1 import auth
 
 app = FastAPI(
     title="Voice Assistant API",

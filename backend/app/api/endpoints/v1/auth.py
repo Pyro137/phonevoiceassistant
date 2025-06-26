@@ -8,8 +8,8 @@ from datetime import timedelta
 from app.core.database import get_db # Veritabanı oturumu için
 from app.models.user import User, UserRole # User modeli ve rolleri için
 from app.models.company import Company # Company modeli için (eğer burada kullanacaksak)
-from core.security import hash_password, verify_password # Şifre güvenliği fonksiyonları için
-from core.auth import create_access_token, get_current_user_data, get_current_admin, get_current_manager, TokenData, ACCESS_TOKEN_EXPIRE_MINUTES # JWT ve yetkilendirme fonksiyonları için
+from app.core.security import hash_password, verify_password # Şifre güvenliği fonksiyonları için
+from app.core.auth import create_access_token, get_current_user_data, get_current_admin, get_current_manager, TokenData, ACCESS_TOKEN_EXPIRE_MINUTES # JWT ve yetkilendirme fonksiyonları için
 
 # Bir APIRouter instance'ı oluşturuyoruz
 router = APIRouter(

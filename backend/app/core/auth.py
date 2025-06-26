@@ -6,7 +6,7 @@ from jose import JWTError, jwt
 from fastapi import HTTPException, status, Depends, Request, Response
 from fastapi.security import OAuth2PasswordBearer # Gerekli olmasa da çoğu projede standart olarak bulunur
 from app.models.user import UserRole # Daha önce tanımladığımız UserRole Enum'ı
-from core.config import get_settings # Ayarlarımızı (SECRET_KEY gibi) almak için
+from app.core.config import get_settings # Ayarlarımızı (SECRET_KEY gibi) almak için
 
 settings = get_settings()
 
