@@ -5,7 +5,7 @@
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base # Modellerimiz için Base
-from core.config import get_settings # Ayarlarımızı almak için
+from app.core.config import get_settings # Ayarlarımızı almak için
 
 settings = get_settings()
 
@@ -16,7 +16,7 @@ AsyncSessionLocal = async_sessionmaker(
     autoflush=False,
     bind=engine,
     class_=AsyncSession, 
-    expire_on_commit=False
+    expire_on_commit=False,
 )
 
 # All models must created from this base.

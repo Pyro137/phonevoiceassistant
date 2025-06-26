@@ -6,13 +6,14 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Enum
 from sqlalchemy.orm import relationship # İlişkiler için
 from sqlalchemy.sql import func # created_at/updated_at için
-from core.database import Base # Daha önce tanımladığımız Base sınıfı
+from app.core.database import Base # Daha önce tanımladığımız Base sınıfı
 import enum # Python'ın enum modülü
 
 # Role için bir Python Enum sınıfı tanımlayalım
 class UserRole(enum.Enum):
     manager = "manager"
     employee = "employee"
+    admin = "admin"
 
 class User(Base):
     __tablename__ = "users"
