@@ -18,6 +18,9 @@ dependencies = [
     "mypy~=1.10.0", # Statik tip denetimi
     "ruff~=0.4.8", # Linting ve biçimlendirme
     "pydantic-settings~=2.3.4", # Pydantic BaseSettings için
+    "setuptools>=80.9.0",
+    "psycopg>=3.2.9",
+    "dateutil",
 ]
 requires-python = ">=3.9" # Bu satır, Python uyumluluğunu belirtir
 readme = "README.md"
