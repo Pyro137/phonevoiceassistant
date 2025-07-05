@@ -1,27 +1,26 @@
-"""
-    Company model for db table.
-"""
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+# app/models/company.py
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, UniqueConstraint
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func 
-from core.database import Base 
+from sqlalchemy.sql import func
+
+from app.models.base import Base
 
 class Company(Base):
     __tablename__ = "companies"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), unique=True, index=True, nullable=False) 
-    phone = Column(String(20), nullable=False)
-    email = Column(String(255), unique=True, index=True, nullable=False) 
-    address = Column(String(500), nullable=True)
+    id = Column(Integer, primary_key=True, autoincrement=True) # serial -> autoincrement
+    name = Column(String(100), nullable=False, unique=True)
+    phone = Column(String(20), nullable=True)
+    email = Column(String(255), nullable=True, unique=True)
+    address = Column(String(255), nullable=True)
+    is_active = Column(Boolean, nullable=False, default=True)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=False, default=func.now(), onupdate=func.now())
 
-    is_active = Column(Boolean, default=True) # Şirket aktif mi?
-
-    # created_at ve updated_at otomatik zaman damgaları
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
+    # İlişkiler
+    # Bir şirketin birden fazla kullanıcısı (One-to-Many)
     users = relationship("User", back_populates="company")
-
-    def __repr__(self):
-        return f"<Company(id={self.id}, name='{self.name}')>"
+    # Bir şirketin birden fazla hizmeti (One-to-Many)
+    company_services = relationship("CompanyService", back_populates="company")
+    # Bir şirkete ait randevular (One-to-Many)
+    appointments = relationship("Appointment", back_populates="company")

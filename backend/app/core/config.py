@@ -5,22 +5,21 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
 import os
+from typing import Optional
 
 class Settings(BaseSettings):
-    # app setting
-    APP_NAME: str = "My FastAPI App"
 
-    # database settings
-    DATABASE_URL: str = "postgresql://metin:1234@localhost:5433/voiceassistant_db" 
-    ASYNC_DATABASE_URL: str = "postgresql+asyncpg://metin:1234@localhost:5433/voiceassistant_db"
+    DATABASE_URL:str
+    SUPABASE_URL: str
+    SUPABASE_ANON_KEY: str 
+    SUPABASE_SERVICE_KEY: Optional[str] = None 
 
-    ENVIROMENT: str = "development"
+    JWT_SECRET_KEY: str
+    ALGORITHM: str = "HS256" 
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
-    #Auth algorithm settings
-    SECRET_KEY:str
-    ALGORITHM:str
-    ACCESS_TOKEN_EXPIRE_MINUTES:str
-
+    DEBUG: bool = False
+    ENVIROMENT:str ="development"
     #config.
     model_config = SettingsConfigDict(
         env_file=".env",  # Varsayılan olarak .env dosyasını arar

@@ -20,7 +20,7 @@ dependencies = [
     "pydantic-settings~=2.3.4", # Pydantic BaseSettings için
     "setuptools>=80.9.0",
     "psycopg>=3.2.9",
-    "dateutil",
+    "supabase",
 ]
 requires-python = ">=3.9" # Bu satır, Python uyumluluğunu belirtir
 readme = "README.md"

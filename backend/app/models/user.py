@@ -1,42 +1,35 @@
-"""
-    Users model for db table.
-"""
 # app/models/user.py
+import enum
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.sql import func # CURRENT_TIMESTAMP ve onupdate için
 
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Enum
-from sqlalchemy.orm import relationship # İlişkiler için
-from sqlalchemy.sql import func # created_at/updated_at için
-from core.database import Base # Daha önce tanımladığımız Base sınıfı
-import enum # Python'ın enum modülü
+from app.models.base import Base
 
-# Role için bir Python Enum sınıfı tanımlayalım
+# Kullanıcı rolleri için Python Enum tanımı
 class UserRole(enum.Enum):
+    admin = "admin"
     manager = "manager"
     employee = "employee"
 
 class User(Base):
     __tablename__ = "users"
 
-    # Sütunlar
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-    phone = Column(String(20), unique=True, index=True, nullable=True) 
-    is_active = Column(Boolean, default=True) 
+    # UUID primary key, gen_random_uuid() ile varsayılan değer
+    id = Column(UUID(as_uuid=True), primary_key=True, default=func.gen_random_uuid())
+    name = Column(String(50), nullable=False)
+    email = Column(String(255), nullable=False, unique=True)
+    # Hashed password sütunu kaldırıldı, çünkü Supabase Auth bunu yönetiyor.
+    phone = Column(String(20), nullable=True)
+    company_id = Column(Integer, ForeignKey("companies.id", ondelete="RESTRICT"), nullable=False)
+    # Role Enum olarak tanımlanır
+    role = Column(String(20), default=UserRole.employee.value, nullable=False) # Enum olarak saklanacak
+    is_active = Column(Boolean, nullable=False, default=True)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=False, default=func.now(), onupdate=func.now())
 
-    # company_id: company tablosu ile ilişki kurulacak.
-    # ForeignKey ile dış anahtar tanımlıyoruz.
-    # Bu, 'companies' tablosundaki 'id' sütununa referans verir.
-    company_id = Column(Integer, ForeignKey("companies.id"), nullable=False)
-
-    role = Column(Enum(UserRole), default=UserRole.employee, nullable=False)
-
-    email = Column(String(255), unique=True, index=True, nullable=False)
-    hashed_password = Column(String(255), nullable=False)
-
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
+    # İlişkiler
     company = relationship("Company", back_populates="users")
-
-    def __repr__(self):
-        return f"<User(id={self.id}, name='{self.name}', email='{self.email}')>"
+    # Bir kullanıcının oluşturduğu randevular (One-to-Many)
+    appointments_created = relationship("Appointment", back_populates="user")
