@@ -33,7 +33,7 @@ async def register_user(user_in: UserRegister, db: AsyncSession = Depends(get_db
                 "password": user_in.password,
                 "options": {
                     "data": {
-                        "full_name": user_in.full_name,
+                        "name": user_in.name,
                         "role": user_in.role.value # Enum değerini string olarak gönderiyoruz
                     }
                 }
@@ -88,9 +88,9 @@ async def login_user(response: Response, user_in: UserLogin):
         response.set_cookie(
             key="access_token",
             value=token,
-            httponly=True, # JavaScript erişemez, XSS riskini azaltır
+            httponly=True, 
             samesite="lax", # CSRF koruması için
-            secure=settings.DEBUG == False, # Üretimde HTTPS için True olmalı
+            # secure= False, # TODO Üretimde HTTPS için True olmalı
             max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60 # Saniye cinsinden
         )
         logger.info(f"User {user_in.email} logged in successfully.")

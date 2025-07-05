@@ -21,13 +21,17 @@ dependencies = [
     "setuptools>=80.9.0",
     "psycopg>=3.2.9",
     "supabase",
+    "pytest>=8.4.1",
+    "httpx>=0.28.1",
+    "pytest-asyncio>=1.0.0",
+    "pytest-mock>=3.14.1",
+    "python-json-logger>=3.3.0",
 ]
 requires-python = ">=3.9" # Bu satır, Python uyumluluğunu belirtir
 readme = "README.md"
 license = { text = "MIT" }
 
-[tool.uv.scripts] # Bu kısım doğru olmalı
-start = "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
 
 [tool.ruff]
 line-length = 120

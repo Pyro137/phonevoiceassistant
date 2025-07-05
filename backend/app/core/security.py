@@ -22,7 +22,12 @@ async def verify_supabase_jwt(token: str) -> dict:
     try:
         # ÖNEMLİ: settings.JWT_SECRET_KEY, Supabase projenizin JWT Secret'ı olmalıdır.
         # Kendi ürettiğiniz bir anahtar değil!
-        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+        token,
+        settings.JWT_SECRET_KEY,
+        algorithms=[settings.ALGORITHM],
+        audience="authenticated", # Supabase token'larının aud değeri
+    )
 
         # Supabase JWT'sinde kullanıcı ID'si genellikle 'sub' (subject) alanındadır.
         user_id: str = payload.get("sub")

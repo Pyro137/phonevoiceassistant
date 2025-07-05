@@ -36,7 +36,7 @@ async def create_user(db: AsyncSession, user_in: UserCreate, supabase_user_id: U
         # hashed_password alanı modelden kaldırıldığı için burada atama yapılmaz.
         phone=user_in.phone,
         company_id=user_in.company_id,
-        role=user_in.role
+        role=user_in.role.value
     )
     db.add(db_user)
     await db.commit()

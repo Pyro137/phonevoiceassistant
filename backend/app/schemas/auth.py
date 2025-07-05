@@ -14,10 +14,11 @@ class UserRegister(BaseModel):
     """
     email: EmailStr = Field(..., example="user@example.com", description="Kullanıcının e-posta adresi, benzersiz olmalıdır.")
     password: str = Field(..., min_length=8, max_length=50, example="SecureP@ssw0rd!", description="Kullanıcının parolası, minimum 8 karakter olmalıdır.")
-    full_name: str = Field(..., max_length=100, example="John Doe", description="Kullanıcının tam adı.")
+    name: str = Field(..., max_length=100, example="John Doe", description="Kullanıcının tam adı.")
+    phone: Optional[str] = Field(None, max_length=20, example="+905551234567", description="Kullanıcının telefon numarası.")
+    company_id: Optional[int] = Field(None, example=1, description="Kullanıcının bağlı olduğu şirketin ID'si.") # Kayıt anında şirket atamıyorsanız Optional yapın.
 
-    role: Optional[UserRole] = Field(UserRole.employee, description="Kullanıcının rolü (admin, manager, employee).") # Tipi UserRole olarak değiştirildi
-
+    role: Optional[UserRole] = Field(UserRole.employee, description="Kullanıcının rolü (admin, manager, employee).")
 # Kullanıcı giriş şeması
 class UserLogin(BaseModel):
     """
